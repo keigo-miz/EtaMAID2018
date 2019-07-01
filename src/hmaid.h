@@ -8,7 +8,7 @@
 // Eur. Phys. J. A (2018) 54: 210
 class EtaMaid {
  public:
-  EtaMaid() { SetN1880Parameters(); }
+  EtaMaid() {}
 
   void set_W(double W) { W_ = W; }
 
