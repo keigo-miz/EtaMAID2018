@@ -109,6 +109,35 @@ void EtaMaid::SetN1535Parameters() {
   b_hpN_ = 0.0;
   phi_ = 29.0;  // [deg]
 
-  Ebar_ = -115.0;
+  // Table 2
+  // Ebar = -A_{1/2}
+  // Mbar = 0.0
+  double A12 = 115.0;
+  Ebar_ = -A12;
   Mbar_ = 0.0;
+}
+
+// Table 5 and 6
+void EtaMaid::SetN1880Parameters() {
+  // P-wave, 1-
+  l_ = 1;    // P-wave
+  J21_ = 2;  // 2J+1 = 1
+  zeta_hN_ = +1;
+  M_R_ = 1882.1;  // [MeV]
+  G_R_ = 90.0;   // [MeV]
+  b_piN_ = 0.060;
+  b_pipiN_ = 0.746;
+  b_hN_ = 0.0043;
+  b_KL_ = 0.020;
+  b_KS_ = 0.170;
+  b_wN_ = 0.0;
+  b_hpN_ = 0.0;
+  phi_ = 84.9;  // [deg]
+
+  // Table 2
+  // Ebar = 0.0
+  // Mbar = A_{1/2}
+  double A12 = 60.4;
+  Ebar_ = 0.0;
+  Mbar_ = A12;
 }

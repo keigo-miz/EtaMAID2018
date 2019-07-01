@@ -8,7 +8,7 @@
 // Eur. Phys. J. A (2018) 54: 210
 class EtaMaid {
  public:
-  EtaMaid() { SetN1535Parameters(); }
+  EtaMaid() { SetN1880Parameters(); }
 
   void set_W(double W) { W_ = W; }
 
@@ -40,6 +40,7 @@ class EtaMaid {
   }
 
   void SetN1535Parameters();
+  void SetN1880Parameters();
 
   static const double mpi = 139.57061;  // charged
   static const double mK = 493.677;
