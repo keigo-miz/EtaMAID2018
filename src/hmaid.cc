@@ -161,5 +161,27 @@ void EtaMaid::SetResonanceParameters(int W) {
     double A32 = 116.8;
     Ebar_ = -(TMath::Sqrt(3.0) * A32 + A12) / 2.0;
     Mbar_ = -(A32 / TMath::Sqrt(3.0) - A12) / 2.0;
+  } else if (W == 1895) {
+    // S-wave, 0+
+    l_ = 0;    // S-wave
+    J21_ = 2;  // 2J+1 = 1
+    zeta_hN_ = +1;
+    M_R_ = 1894.4;  // [MeV]
+    G_R_ = 70.7;   // [MeV]
+    b_piN_ = 0.025;
+    b_pipiN_ = 0.632;
+    b_hN_ = 0.0327;
+    b_KL_ = 0.180;
+    b_KS_ = 0.130;
+    b_wN_ = 0.0;
+    b_hpN_ = 0.0;
+    phi_ = 51.5;  // [deg]
+
+    // Table 2
+    // Ebar = -A_{1/2}
+    // Mbar = 0.0
+    double A12 = -32.0;
+    Ebar_ = -A12;
+    Mbar_ = 0.0;
   }
 }
