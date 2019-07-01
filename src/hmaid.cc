@@ -48,6 +48,7 @@ double EtaMaid::GammaTotal() {
 
 // Eqs. (37)-(39)
 double EtaMaid::PartialWidth(double beta, double m_meson, double m_baryon, bool pi2) {
+  if (beta < 1.0e-6) return 0.0;
   const double X = 450.0;  // cut-off [MeV]
 
   double q = PDK(W_, m_meson, m_baryon);

@@ -6,10 +6,10 @@
 int main() {
   EtaMaid hmaid;
 
-  const int num = 1000;
+  const int num = 10000;
   double xx[num], yy0[num], yy1[num];
   for (int i = 0; i < num; i++) {
-    xx[i] = 1490.0 + 0.1 * i;
+    xx[i] = 1486.2 + 0.1 * i;
     TComplex c = hmaid.keisan(xx[i]);
     yy0[i] = c.Re();
     yy1[i] = c.Im();
