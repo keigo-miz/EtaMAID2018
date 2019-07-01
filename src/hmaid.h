@@ -8,9 +8,7 @@
 // Eur. Phys. J. A (2018) 54: 210
 class EtaMaid {
  public:
-  EtaMaid() {
-    SetN1535Parameters();
-  }
+  EtaMaid() { SetN1535Parameters(); }
 
   void set_W(double W) { W_ = W; }
 
@@ -36,7 +34,9 @@ class EtaMaid {
 
   // PDK function to calculate k, q
   double PDK(double W, double m1, double m2) {
-    return (TMath::Sqrt((W * W - (m1 + m2) * (m1 + m2)) * (W * W - (m1 - m2) * (m1 - m2))) / 2.0 / W);
+    return (TMath::Sqrt((W * W - (m1 + m2) * (m1 + m2)) *
+                        (W * W - (m1 - m2) * (m1 - m2))) /
+            2.0 / W);
   }
 
   TComplex keisan(double W) {
@@ -59,7 +59,7 @@ class EtaMaid {
   double W_;
   // Resonance parameters
   unsigned int l_;
-  unsigned int J21_; // 2J+1
+  unsigned int J21_;  // 2J+1
   int zeta_hN_;
   double M_R_;
   double G_R_;
