@@ -7,19 +7,23 @@ void show() {
   TGraph *ref1 = new TGraph("e0p_im.dat");
   ref0->SetMarkerStyle(20);
   ref1->SetMarkerStyle(20);
+  ref0->SetMarkerSize(0.5);
+  ref1->SetMarkerSize(0.5);
   ref0->SetMarkerColor(2);
   ref1->SetMarkerColor(2);
 
   TCanvas *c1 = new TCanvas("c1", "c1", 1200, 600);
   c1->Divide(2, 1);
-  TH1 *frame0 = c1->cd(1)->DrawFrame(1480.01, -15.0, 2500.0, 0.0);
+  TH1 *frame0 = c1->cd(1)->DrawFrame(1450.01, -15.0, 2500.0, 5.0);
   frame0->SetTitle("Re E_{0#plus}  [N(1535)]");
   frame0->GetXaxis()->SetTitle("W (MeV)");
   tg0->Draw("l");
   ref0->Draw("p");
-  TH1 *frame1 = c1->cd(2)->DrawFrame(1480.01, -10.0, 2500.0, 25.0);
+  TH1 *frame1 = c1->cd(2)->DrawFrame(1450.01, -10.0, 2500.0, 25.0);
   frame1->SetTitle("Im E_{0#plus}  [N(1535)]");
   frame1->GetXaxis()->SetTitle("W (MeV)");
   tg1->Draw("l");
   ref1->Draw("p");
+
+  c1->Print("show.pdf");
 }
