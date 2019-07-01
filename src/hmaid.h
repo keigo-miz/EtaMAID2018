@@ -41,6 +41,7 @@ class EtaMaid {
 
   void SetN1535Parameters();
   void SetN1880Parameters();
+  void SetN1520Parameters();
 
   static const double mpi = 139.57061;  // charged
   static const double mK = 493.677;

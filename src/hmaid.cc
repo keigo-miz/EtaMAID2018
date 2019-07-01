@@ -141,3 +141,29 @@ void EtaMaid::SetN1880Parameters() {
   Ebar_ = 0.0;
   Mbar_ = A12;
 }
+
+// Table 5 and 6
+void EtaMaid::SetN1520Parameters() {
+  // D-wave, 2-
+  l_ = 2;    // D-wave
+  J21_ = 4;  // 2J+1 = 1
+  zeta_hN_ = +1;
+  M_R_ = 1520.0;  // [MeV]
+  G_R_ = 100.0;   // [MeV]
+  b_piN_ = 0.61;
+  b_pipiN_ = 0.389;
+  b_hN_ = 0.0008;
+  b_KL_ = 0.0;
+  b_KS_ = 0.0;
+  b_wN_ = 0.0;
+  b_hpN_ = 0.0;
+  phi_ = 55.3;  // [deg]
+
+  // Table 2
+  // Ebar = -(1/2)(sqrt(3)*A32 + A12)
+  // Mbar = -(1/2)(A32 / sqrt(3) - A12)
+  double A12 = -39.7;
+  double A32 = 116.8;
+  Ebar_ = -(TMath::Sqrt(3.0) * A32 + A12) / 2.0;
+  Mbar_ = -(A32 / TMath::Sqrt(3.0) - A12) / 2.0;
+}

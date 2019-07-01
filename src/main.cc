@@ -5,9 +5,9 @@
 
 int main() {
   EtaMaid hmaid;
-  hmaid.SetN1535Parameters();
-  int W = 1535;
-  bool IsE = true;
+  hmaid.SetN1520Parameters();
+  int W = 1520;
+  bool IsE = false;
 
   const int num = 10000;
   double xx[num], yy0[num], yy1[num];
