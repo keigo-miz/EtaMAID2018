@@ -12,7 +12,7 @@ class EtaMaid {
 
   void set_W(double W) { W_ = W; }
 
-  void SetN1535Parameters();
+  TComplex Multipole(double W, bool IsE);
 
   // Eq. (33)
   TComplex t(TComplex tBW);
@@ -39,11 +39,7 @@ class EtaMaid {
             2.0 / W);
   }
 
-  TComplex keisan(double W) {
-    set_W(W);
-    double E0p_bar = -115.0 * MeVfm_inv / TMath::Sqrt(1000.0);
-    return (t(tBW(E0p_bar)));
-  }
+  void SetN1535Parameters();
 
   static const double mpi = 139.57061;  // charged
   static const double mK = 493.677;
@@ -71,6 +67,9 @@ class EtaMaid {
   double b_wN_;
   double b_hpN_;
   double phi_;
+
+  double Ebar_;
+  double Mbar_;
 };
 
 #endif  // HMAID_H_

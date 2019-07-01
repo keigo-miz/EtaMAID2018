@@ -3,6 +3,12 @@
 // L. Tiator et al.
 // Eur. Phys. J. A (2018) 54: 210
 
+TComplex EtaMaid::Multipole(double W, bool IsE) {
+  set_W(W);
+  double tmp_bar = (IsE ? Ebar_ : Mbar_);
+  return (t(tBW(tmp_bar)) * MeVfm_inv / TMath::Sqrt(1000.0));
+}
+
 // Eq. (33)
 TComplex EtaMaid::t(TComplex tBW) {
   return (tBW * TComplex::Exp(TComplex(0.0, phi_ * TMath::Pi() / 180.0)));
@@ -88,6 +94,7 @@ double EtaMaid::PhotonVertex() {
 
 // Table 5 and 6
 void EtaMaid::SetN1535Parameters() {
+  // S-wave, 0+
   l_ = 0;    // S-wave
   J21_ = 2;  // 2J+1 = 1
   zeta_hN_ = +1;
@@ -101,4 +108,7 @@ void EtaMaid::SetN1535Parameters() {
   b_wN_ = 0.0;
   b_hpN_ = 0.0;
   phi_ = 29.0;  // [deg]
+
+  Ebar_ = -115.0;
+  Mbar_ = 0.0;
 }
