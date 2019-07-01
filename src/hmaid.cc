@@ -93,77 +93,73 @@ double EtaMaid::PhotonVertex() {
 }
 
 // Table 5 and 6
-void EtaMaid::SetN1535Parameters() {
-  // S-wave, 0+
-  l_ = 0;    // S-wave
-  J21_ = 2;  // 2J+1 = 1
-  zeta_hN_ = +1;
-  M_R_ = 1521.7;  // [MeV]
-  G_R_ = 174.7;   // [MeV]
-  b_piN_ = 0.520;
-  b_pipiN_ = 0.136;
-  b_hN_ = 0.344;
-  b_KL_ = 0.0;
-  b_KS_ = 0.0;
-  b_wN_ = 0.0;
-  b_hpN_ = 0.0;
-  phi_ = 29.0;  // [deg]
+void EtaMaid::SetResonanceParameters(int W) {
+  if (W == 1535) {
+    // S-wave, 0+
+    l_ = 0;    // S-wave
+    J21_ = 2;  // 2J+1 = 1
+    zeta_hN_ = +1;
+    M_R_ = 1521.7;  // [MeV]
+    G_R_ = 174.7;   // [MeV]
+    b_piN_ = 0.520;
+    b_pipiN_ = 0.136;
+    b_hN_ = 0.344;
+    b_KL_ = 0.0;
+    b_KS_ = 0.0;
+    b_wN_ = 0.0;
+    b_hpN_ = 0.0;
+    phi_ = 29.0;  // [deg]
 
-  // Table 2
-  // Ebar = -A_{1/2}
-  // Mbar = 0.0
-  double A12 = 115.0;
-  Ebar_ = -A12;
-  Mbar_ = 0.0;
-}
+    // Table 2
+    // Ebar = -A_{1/2}
+    // Mbar = 0.0
+    double A12 = 115.0;
+    Ebar_ = -A12;
+    Mbar_ = 0.0;
+  } else if (W == 1880) {
+    // P-wave, 1-
+    l_ = 1;    // P-wave
+    J21_ = 2;  // 2J+1 = 1
+    zeta_hN_ = +1;
+    M_R_ = 1882.1;  // [MeV]
+    G_R_ = 90.0;   // [MeV]
+    b_piN_ = 0.060;
+    b_pipiN_ = 0.746;
+    b_hN_ = 0.0043;
+    b_KL_ = 0.020;
+    b_KS_ = 0.170;
+    b_wN_ = 0.0;
+    b_hpN_ = 0.0;
+    phi_ = 84.9;  // [deg]
 
-// Table 5 and 6
-void EtaMaid::SetN1880Parameters() {
-  // P-wave, 1-
-  l_ = 1;    // P-wave
-  J21_ = 2;  // 2J+1 = 1
-  zeta_hN_ = +1;
-  M_R_ = 1882.1;  // [MeV]
-  G_R_ = 90.0;   // [MeV]
-  b_piN_ = 0.060;
-  b_pipiN_ = 0.746;
-  b_hN_ = 0.0043;
-  b_KL_ = 0.020;
-  b_KS_ = 0.170;
-  b_wN_ = 0.0;
-  b_hpN_ = 0.0;
-  phi_ = 84.9;  // [deg]
+    // Table 2
+    // Ebar = 0.0
+    // Mbar = A_{1/2}
+    double A12 = 60.4;
+    Ebar_ = 0.0;
+    Mbar_ = A12;
+  } else if (W == 1520) {
+    // D-wave, 2-
+    l_ = 2;    // D-wave
+    J21_ = 4;  // 2J+1 = 1
+    zeta_hN_ = +1;
+    M_R_ = 1520.0;  // [MeV]
+    G_R_ = 100.0;   // [MeV]
+    b_piN_ = 0.61;
+    b_pipiN_ = 0.389;
+    b_hN_ = 0.0008;
+    b_KL_ = 0.0;
+    b_KS_ = 0.0;
+    b_wN_ = 0.0;
+    b_hpN_ = 0.0;
+    phi_ = 55.3;  // [deg]
 
-  // Table 2
-  // Ebar = 0.0
-  // Mbar = A_{1/2}
-  double A12 = 60.4;
-  Ebar_ = 0.0;
-  Mbar_ = A12;
-}
-
-// Table 5 and 6
-void EtaMaid::SetN1520Parameters() {
-  // D-wave, 2-
-  l_ = 2;    // D-wave
-  J21_ = 4;  // 2J+1 = 1
-  zeta_hN_ = +1;
-  M_R_ = 1520.0;  // [MeV]
-  G_R_ = 100.0;   // [MeV]
-  b_piN_ = 0.61;
-  b_pipiN_ = 0.389;
-  b_hN_ = 0.0008;
-  b_KL_ = 0.0;
-  b_KS_ = 0.0;
-  b_wN_ = 0.0;
-  b_hpN_ = 0.0;
-  phi_ = 55.3;  // [deg]
-
-  // Table 2
-  // Ebar = -(1/2)(sqrt(3)*A32 + A12)
-  // Mbar = -(1/2)(A32 / sqrt(3) - A12)
-  double A12 = -39.7;
-  double A32 = 116.8;
-  Ebar_ = -(TMath::Sqrt(3.0) * A32 + A12) / 2.0;
-  Mbar_ = -(A32 / TMath::Sqrt(3.0) - A12) / 2.0;
+    // Table 2
+    // Ebar = -(1/2)(sqrt(3)*A32 + A12)
+    // Mbar = -(1/2)(A32 / sqrt(3) - A12)
+    double A12 = -39.7;
+    double A32 = 116.8;
+    Ebar_ = -(TMath::Sqrt(3.0) * A32 + A12) / 2.0;
+    Mbar_ = -(A32 / TMath::Sqrt(3.0) - A12) / 2.0;
+  }
 }

@@ -39,9 +39,7 @@ class EtaMaid {
             2.0 / W);
   }
 
-  void SetN1535Parameters();
-  void SetN1880Parameters();
-  void SetN1520Parameters();
+  void SetResonanceParameters(int W);
 
   static const double mpi = 139.57061;  // charged
   static const double mK = 493.677;

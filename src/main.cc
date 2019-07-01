@@ -4,10 +4,11 @@
 #include <TFile.h>
 
 int main() {
-  EtaMaid hmaid;
-  hmaid.SetN1520Parameters();
-  int W = 1520;
+  int W = 1880;
   bool IsE = false;
+
+  EtaMaid hmaid;
+  hmaid.SetResonanceParameters(W);
 
   const int num = 10000;
   double xx[num], yy0[num], yy1[num];
