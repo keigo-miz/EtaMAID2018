@@ -4,7 +4,7 @@
 #include <TFile.h>
 
 int main() {
-  int W = 1880;
+  int W = 1520;
   bool IsE = false;
 
   EtaMaid hmaid;
@@ -24,7 +24,8 @@ int main() {
   tg0->SetName("tg0");
   tg1->SetName("tg1");
 
-  TFile *file0 = new TFile(Form("rt/%s%04d.root", (IsE ? "E" : "M"), W), "recreate");
+  TFile *file0 =
+      new TFile(Form("rt/%s%04d.root", (IsE ? "E" : "M"), W), "recreate");
   tg0->Write();
   tg1->Write();
   file0->Close();

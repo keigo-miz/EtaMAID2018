@@ -86,7 +86,8 @@ double EtaMaid::PartialWidth(double beta, double m_meson, double m_baryon,
 }
 
 // Eq. (45)
-double EtaMaid::PartialWidthBelowThr(double g, double m_meson, double m_baryon) {
+double EtaMaid::PartialWidthBelowThr(double g, double m_meson,
+                                     double m_baryon) {
   const double X = 450.0;  // cut-off [MeV]
   const double q = PDK(W_, m_meson, m_baryon);
 
@@ -120,7 +121,9 @@ double EtaMaid::PhotonVertex() {
 // PDK function to calculate k, q
 // Take an absolute value..
 double EtaMaid::PDK(double W, double m1, double m2) {
-  return (TMath::Sqrt(TMath::Abs((W * W - (m1 + m2) * (m1 + m2)) * (W * W - (m1 - m2) * (m1 - m2)))) / 2.0 / W);
+  return (TMath::Sqrt(TMath::Abs((W * W - (m1 + m2) * (m1 + m2)) *
+                                 (W * W - (m1 - m2) * (m1 - m2)))) /
+          2.0 / W);
 }
 
 // Table 5 and 6
@@ -133,7 +136,9 @@ void EtaMaid::SetResonanceParameters(int W) {
   double MR0, GR0, bpiN0, bpi2N0, bhN0, bKL0, bKS0, bwN0, bhpN0, ghpN0;
   while (fgets(buf, sizeof(buf), fp) != nullptr) {
     if (buf[0] == '#') continue;
-    sscanf(buf, "%d %d %u %d %d %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf", &M0, &J0, &l0, &zhN0, &zhpN0, &MR0, &GR0, &bpiN0, &bpi2N0, &bhN0, &bKL0, &bKS0, &bwN0, &bhpN0, &ghpN0);
+    sscanf(buf, "%d %d %u %d %d %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf", &M0,
+           &J0, &l0, &zhN0, &zhpN0, &MR0, &GR0, &bpiN0, &bpi2N0, &bhN0, &bKL0,
+           &bKS0, &bwN0, &bhpN0, &ghpN0);
     if (M0 == W) {
       J21_ = J0;
       l_ = l0;
@@ -157,7 +162,8 @@ void EtaMaid::SetResonanceParameters(int W) {
   double pA12, pA32, nA12, nA32, phhp0, phhn0, phhpp0, phhpn0;
   while (fgets(buf, sizeof(buf), fp) != nullptr) {
     if (buf[0] == '#') continue;
-    sscanf(buf, "%d %lf %lf %lf %lf %lf %lf %lf %lf", &M0, &pA12, &pA32, &nA12, &nA32, &phhp0, &phhn0, &phhpp0, &phhpn0);
+    sscanf(buf, "%d %lf %lf %lf %lf %lf %lf %lf %lf", &M0, &pA12, &pA32, &nA12,
+           &nA32, &phhp0, &phhn0, &phhpp0, &phhpn0);
     if (M0 == W) {
       phi_ = phhp0;
       A2M(pA12, pA32);
@@ -170,60 +176,18 @@ void EtaMaid::SetResonanceParameters(int W) {
   g_hN_ = 0.0;
   g_KS_ = 0.0;
   g_wN_ = 0.0;
-
-  if (W == 1520) {
-    // D-wave, 2-
-    l_ = 2;    // D-wave
-    J21_ = 4;  // 2J+1 = 1
-    zeta_hN_ = +1;
-    M_R_ = 1520.0;  // [MeV]
-    G_R_ = 100.0;   // [MeV]
-    b_piN_ = 0.61;
-    b_pipiN_ = 0.389;
-    b_hN_ = 0.0008;
-    phi_ = 55.3;  // [deg]
-
-    // Table 2
-    // Ebar = -(1/2)(sqrt(3)*A32 + A12)
-    // Mbar = -(1/2)(A32 / sqrt(3) - A12)
-    double A12 = -39.7;
-    double A32 = 116.8;
-    Ebar_ = -(TMath::Sqrt(3.0) * A32 + A12) / 2.0;
-    Mbar_ = -(A32 / TMath::Sqrt(3.0) - A12) / 2.0;
-  } else if (W == 1895) {
-    // S-wave, 0+
-    l_ = 0;    // S-wave
-    J21_ = 2;  // 2J+1 = 1
-    zeta_hN_ = +1;
-    M_R_ = 1894.4;  // [MeV]
-    G_R_ = 70.7;   // [MeV]
-    b_piN_ = 0.025;
-    b_pipiN_ = 0.632;
-    b_hN_ = 0.0327;
-    b_KL_ = 0.180;
-    b_KS_ = 0.130;
-    g_hpN_ = 0.405;
-    phi_ = 51.5;  // [deg]
-
-    // Table 2
-    // Ebar = -A_{1/2}
-    // Mbar = 0.0
-    double A12 = -32.0;
-    Ebar_ = -A12;
-    Mbar_ = 0.0;
-  }
 }
 
 // Table 2
 void EtaMaid::A2M(double A12, double A32) {
-  if (l_ == 0) {      // S11 wave
+  if (l_ == 0) {  // S11 wave
     Ebar_ = -A12;
     Mbar_ = 0.0;
   } else if (l_ == 1) {
     if (J21_ == 2) {  // P11 wave
       Ebar_ = 0.0;
       Mbar_ = A12;
-    } else {          // P13 wave
+    } else {  // P13 wave
       Ebar_ = 0.5 * (A32 / TMath::Sqrt(3.0) - A12);
       Mbar_ = -0.5 * (TMath::Sqrt(3.0) * A32 + A12);
     }
@@ -231,7 +195,7 @@ void EtaMaid::A2M(double A12, double A32) {
     if (J21_ == 4) {  // D13 wave
       Ebar_ = -0.5 * (TMath::Sqrt(3.0) * A32 + A12);
       Mbar_ = -0.5 * (A32 / TMath::Sqrt(3.0) - A12);
-    } else {          // D15 wave
+    } else {  // D15 wave
       Ebar_ = (1.0 / 3.0) * (A32 / TMath::Sqrt2() - A12);
       Mbar_ = -(1.0 / 3.0) * (TMath::Sqrt2() * A32 + A12);
     }
@@ -239,7 +203,7 @@ void EtaMaid::A2M(double A12, double A32) {
     if (J21_ == 6) {  // F15 wave
       Ebar_ = -(1.0 / 3.0) * (TMath::Sqrt2() * A32 + A12);
       Mbar_ = -(1.0 / 3.0) * (A32 / TMath::Sqrt2() - A12);
-    } else {          // F17 wave
+    } else {  // F17 wave
       Ebar_ = (1.0 / 4.0) * (TMath::Sqrt(3.0 / 5.0) * A32 - A12);
       Mbar_ = -(1.0 / 4.0) * (TMath::Sqrt(5.0 / 3.0) * A32 + A12);
     }
@@ -247,7 +211,7 @@ void EtaMaid::A2M(double A12, double A32) {
     if (J21_ == 8) {  // G17 wave
       Ebar_ = -(1.0 / 4.0) * (TMath::Sqrt(5.0 / 3.0) * A32 + A12);
       Mbar_ = -(1.0 / 4.0) * (TMath::Sqrt(3.0 / 5.0) * A32 - A12);
-    } else {          // G19 wave
+    } else {  // G19 wave
       Ebar_ = (1.0 / 5.0) * (TMath::Sqrt(2.0 / 3.0) * A32 - A12);
       Mbar_ = -(1.0 / 5.0) * (TMath::Sqrt(3.0 / 2.0) * A32 + A12);
     }
