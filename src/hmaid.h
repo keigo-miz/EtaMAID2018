@@ -26,6 +26,9 @@ class EtaMaid {
   // Eqs. (37)-(39)
   double PartialWidth(double beta, double m_meson, double m_baryon, bool pi2);
 
+  // Eq. (45)
+  double PartialWidthBelowThr(double g, double m_meson, double m_baryon);
+
   // Eq. (35)
   double BreitWignerFactor(double Gtot);
 
@@ -62,6 +65,13 @@ class EtaMaid {
   double b_KS_;
   double b_wN_;
   double b_hpN_;
+
+  // Eq. (45), Table 5
+  double g_hN_;
+  double g_KS_;
+  double g_wN_;
+  double g_hpN_;
+
   double phi_;
 
   double Ebar_;
