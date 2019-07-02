@@ -21,7 +21,7 @@ class EtaMaid {
   TComplex tBW(double Mbar);
 
   // Eq. (36)
-  double GammaTotal();
+  std::pair<double, double> GammaTotal();
 
   // Eqs. (37)-(39)
   double PartialWidth(double beta, double m_meson, double m_baryon, bool pi2);
@@ -30,7 +30,8 @@ class EtaMaid {
   double PartialWidthBelowThr(double g, double m_meson, double m_baryon);
 
   // Eq. (35)
-  double BreitWignerFactor(double Gtot);
+  // widths.first: G_tot, widths.second: G_hN
+  double BreitWignerFactor(std::pair<double, double> widths);
 
   // Eq. (40)
   double PhotonVertex();

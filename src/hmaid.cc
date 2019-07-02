@@ -17,51 +17,55 @@ TComplex EtaMaid::t(TComplex tBW) {
 // Eq. (34)
 TComplex EtaMaid::tBW(double Mbar) {
   // C_{\eta N} = -1
-  double Gtot = GammaTotal();
-  double f_hN = BreitWignerFactor(Gtot);
+  std::pair<double, double> widths = GammaTotal();
+  double f_hN = BreitWignerFactor(widths);
   double f_gN = PhotonVertex();
-  return (TComplex(-Mbar * M_R_ * Gtot * f_hN * f_gN, 0.0) /
-          TComplex(M_R_ * M_R_ - W_ * W_, -M_R_ * Gtot));
+  return (TComplex(-Mbar * M_R_ * widths.first * f_hN * f_gN, 0.0) /
+          TComplex(M_R_ * M_R_ - W_ * W_, -M_R_ * widths.first));
 }
 
 // Eq. (36)
-double EtaMaid::GammaTotal() {
-  double Gamma = 0.0;
+std::pair<double, double> EtaMaid::GammaTotal() {
+  double Gtot = 0.0, G_hN = 0.0;
   if (W_ > 1077.84) {  // piN threshold
-    Gamma += PartialWidth(b_piN_, mpi, mN, false);
+    Gtot += PartialWidth(b_piN_, mpi, mN, false);
   }
   if (W_ > 1217.41) {  // pipiN threshold
-    Gamma += PartialWidth(b_pipiN_, 2 * mpi, mN, true);
+    Gtot += PartialWidth(b_pipiN_, 2 * mpi, mN, true);
   }
   if (W_ > 1486.13) {  // etaN threshold
-    Gamma += PartialWidth(b_hN_, mh, mN, false);
+    G_hN = PartialWidth(b_hN_, mh, mN, false);
+    Gtot += G_hN;
 
     // Eq. (45) for below threshold
-    if (g_hN_ > 0.001) Gamma += PartialWidthBelowThr(g_hN_, mh, mN);
+    if (g_hN_ > 0.001) {
+      G_hN = PartialWidthBelowThr(g_hN_, mh, mN);
+      Gtot += G_hN;
+    }
   }
   if (W_ > 1609.36) {  // K Lambda threshold
-    Gamma += PartialWidth(b_KL_, mK, mL, false);
+    Gtot += PartialWidth(b_KL_, mK, mL, false);
   }
   if (W_ > 1686.32) {  // K Sigma threshold
-    Gamma += PartialWidth(b_KS_, mK, mS, false);
+    Gtot += PartialWidth(b_KS_, mK, mS, false);
 
     // Eq. (45) for below threshold
-    if (g_KS_ > 0.001) Gamma += PartialWidthBelowThr(g_KS_, mK, mS);
+    if (g_KS_ > 0.001) Gtot += PartialWidthBelowThr(g_KS_, mK, mS);
   }
   if (W_ > 1720.92) {  // omega N threshold
-    Gamma += PartialWidth(b_wN_, mw, mN, false);
+    Gtot += PartialWidth(b_wN_, mw, mN, false);
 
     // Eq. (45) for below threshold
-    if (g_wN_ > 0.001) Gamma += PartialWidthBelowThr(g_wN_, mw, mN);
+    if (g_wN_ > 0.001) Gtot += PartialWidthBelowThr(g_wN_, mw, mN);
   }
   if (W_ > 1896.05) {  // eta' N threshold
-    Gamma += PartialWidth(b_hpN_, mhp, mN, false);
+    Gtot += PartialWidth(b_hpN_, mhp, mN, false);
 
     // Eq. (45) for below threshold
-    if (g_hpN_ > 0.001) Gamma += PartialWidthBelowThr(g_hpN_, mhp, mN);
+    if (g_hpN_ > 0.001) Gtot += PartialWidthBelowThr(g_hpN_, mhp, mN);
   }
 
-  return Gamma;
+  return std::make_pair(Gtot, G_hN);
 }
 
 // Eqs. (37)-(39)
@@ -100,13 +104,13 @@ double EtaMaid::PartialWidthBelowThr(double g, double m_meson,
 }
 
 // Eq. (35)
-double EtaMaid::BreitWignerFactor(double Gtot) {
+// widths.first: G_tot, widths.second: G_hN
+double EtaMaid::BreitWignerFactor(std::pair<double, double> widths) {
   double k = PDK(W_, 0.0, mN);
   double q = PDK(W_, mh, mN);
 
-  return (zeta_hN_ *
-          TMath::Sqrt(1.0 / J21_ / TMath::Pi() * k / q * mN / M_R_ *
-                      PartialWidth(b_hN_, mh, mN, false) / Gtot / Gtot));
+  return (zeta_hN_ * TMath::Sqrt(1.0 / J21_ / TMath::Pi() * k / q * mN / M_R_ *
+                                 widths.second / widths.first / widths.first));
 }
 
 // Eq. (40)
@@ -176,6 +180,7 @@ void EtaMaid::SetResonanceParameters(int W) {
   g_hN_ = 0.0;
   g_KS_ = 0.0;
   g_wN_ = 0.0;
+  if (W == 1440) g_hN_ = 1.0;
 }
 
 // Table 2

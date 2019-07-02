@@ -4,7 +4,7 @@
 #include <TFile.h>
 
 int main() {
-  int W = 1520;
+  int W = 1440;
   bool IsE = false;
 
   EtaMaid hmaid;
