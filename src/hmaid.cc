@@ -118,8 +118,9 @@ double EtaMaid::PhotonVertex() {
 }
 
 // PDK function to calculate k, q
+// Take an absolute value..
 double EtaMaid::PDK(double W, double m1, double m2) {
-  return (TMath::Sqrt((W * W - (m1 + m2) * (m1 + m2)) * (W * W - (m1 - m2) * (m1 - m2))) / 2.0 / W);
+  return (TMath::Sqrt(TMath::Abs((W * W - (m1 + m2) * (m1 + m2)) * (W * W - (m1 - m2) * (m1 - m2)))) / 2.0 / W);
 }
 
 // Table 5 and 6
@@ -170,28 +171,7 @@ void EtaMaid::SetResonanceParameters(int W) {
   g_KS_ = 0.0;
   g_wN_ = 0.0;
 
-  if (W == 1880) {
-    // P-wave, 1-
-    l_ = 1;    // P-wave
-    J21_ = 2;  // 2J+1 = 1
-    zeta_hN_ = +1;
-    M_R_ = 1882.1;  // [MeV]
-    G_R_ = 90.0;   // [MeV]
-    b_piN_ = 0.060;
-    b_pipiN_ = 0.746;
-    b_hN_ = 0.0043;
-    b_KL_ = 0.020;
-    b_KS_ = 0.170;
-    g_hpN_ = 0.400;
-    phi_ = 84.9;  // [deg]
-
-    // Table 2
-    // Ebar = 0.0
-    // Mbar = A_{1/2}
-    double A12 = 60.4;
-    Ebar_ = 0.0;
-    Mbar_ = A12;
-  } else if (W == 1520) {
+  if (W == 1520) {
     // D-wave, 2-
     l_ = 2;    // D-wave
     J21_ = 4;  // 2J+1 = 1
