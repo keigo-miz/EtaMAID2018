@@ -124,39 +124,53 @@ double EtaMaid::PDK(double W, double m1, double m2) {
 
 // Table 5 and 6
 void EtaMaid::SetResonanceParameters(int W) {
-  b_piN_ = 0.0;
-  b_pipiN_ = 0.0;
-  b_hN_ = 0.0;
-  b_KL_ = 0.0;
-  b_KS_ = 0.0;
-  b_wN_ = 0.0;
-  b_hpN_ = 0.0;
+  // Reads multipoles.
+  FILE *fp = fopen("dat/Table5.dat", "r");
+  char buf[256];
+  int M0, J0, zhN0, zhpN0;
+  unsigned int l0;
+  double MR0, GR0, bpiN0, bpi2N0, bhN0, bKL0, bKS0, bwN0, bhpN0, ghpN0;
+  while (fgets(buf, sizeof(buf), fp) != nullptr) {
+    if (buf[0] == '#') continue;
+    sscanf(buf, "%d %d %u %d %d %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf", &M0, &J0, &l0, &zhN0, &zhpN0, &MR0, &GR0, &bpiN0, &bpi2N0, &bhN0, &bKL0, &bKS0, &bwN0, &bhpN0, &ghpN0);
+    if (M0 == W) {
+      J21_ = J0;
+      l_ = l0;
+      zeta_hN_ = zhN0;
+      zeta_hpN_ = zhpN0;
+      M_R_ = MR0;
+      G_R_ = GR0;
+      b_piN_ = bpiN0 * 0.01;
+      b_pipiN_ = bpi2N0 * 0.01;
+      b_hN_ = bhN0 * 0.01;
+      b_KL_ = bKL0 * 0.01;
+      b_KS_ = bKS0 * 0.01;
+      b_wN_ = bwN0 * 0.01;
+      b_hpN_ = bhpN0 * 0.01;
+      g_hpN_ = ghpN0;
+      break;
+    }
+  }
+  fclose(fp);
+  fp = fopen("dat/Table6.dat", "r");
+  double pA12, pA32, nA12, nA32, phhp0, phhn0, phhpp0, phhpn0;
+  while (fgets(buf, sizeof(buf), fp) != nullptr) {
+    if (buf[0] == '#') continue;
+    sscanf(buf, "%d %lf %lf %lf %lf %lf %lf %lf %lf", &M0, &pA12, &pA32, &nA12, &nA32, &phhp0, &phhn0, &phhpp0, &phhpn0);
+    if (M0 == W) {
+      phi_ = phhp0;
+      A2M(pA12, pA32);
+      break;
+    }
+  }
+  fclose(fp);
 
   // Eq. (45), Table 5
   g_hN_ = 0.0;
   g_KS_ = 0.0;
   g_wN_ = 0.0;
-  g_hpN_ = 0.0;
 
-  if (W == 1535) {
-    // S-wave, 0+
-    l_ = 0;    // S-wave
-    J21_ = 2;  // 2J+1 = 1
-    zeta_hN_ = +1;
-    M_R_ = 1521.7;  // [MeV]
-    G_R_ = 174.7;   // [MeV]
-    b_piN_ = 0.520;
-    b_pipiN_ = 0.136;
-    b_hN_ = 0.344;
-    phi_ = 29.0;  // [deg]
-
-    // Table 2
-    // Ebar = -A_{1/2}
-    // Mbar = 0.0
-    double A12 = 115.0;
-    Ebar_ = -A12;
-    Mbar_ = 0.0;
-  } else if (W == 1880) {
+  if (W == 1880) {
     // P-wave, 1-
     l_ = 1;    // P-wave
     J21_ = 2;  // 2J+1 = 1
@@ -217,5 +231,45 @@ void EtaMaid::SetResonanceParameters(int W) {
     double A12 = -32.0;
     Ebar_ = -A12;
     Mbar_ = 0.0;
+  }
+}
+
+// Table 2
+void EtaMaid::A2M(double A12, double A32) {
+  if (l_ == 0) {      // S11 wave
+    Ebar_ = -A12;
+    Mbar_ = 0.0;
+  } else if (l_ == 1) {
+    if (J21_ == 2) {  // P11 wave
+      Ebar_ = 0.0;
+      Mbar_ = A12;
+    } else {          // P13 wave
+      Ebar_ = 0.5 * (A32 / TMath::Sqrt(3.0) - A12);
+      Mbar_ = -0.5 * (TMath::Sqrt(3.0) * A32 + A12);
+    }
+  } else if (l_ == 2) {
+    if (J21_ == 4) {  // D13 wave
+      Ebar_ = -0.5 * (TMath::Sqrt(3.0) * A32 + A12);
+      Mbar_ = -0.5 * (A32 / TMath::Sqrt(3.0) - A12);
+    } else {          // D15 wave
+      Ebar_ = (1.0 / 3.0) * (A32 / TMath::Sqrt2() - A12);
+      Mbar_ = -(1.0 / 3.0) * (TMath::Sqrt2() * A32 + A12);
+    }
+  } else if (l_ == 3) {
+    if (J21_ == 6) {  // F15 wave
+      Ebar_ = -(1.0 / 3.0) * (TMath::Sqrt2() * A32 + A12);
+      Mbar_ = -(1.0 / 3.0) * (A32 / TMath::Sqrt2() - A12);
+    } else {          // F17 wave
+      Ebar_ = (1.0 / 4.0) * (TMath::Sqrt(3.0 / 5.0) * A32 - A12);
+      Mbar_ = -(1.0 / 4.0) * (TMath::Sqrt(5.0 / 3.0) * A32 + A12);
+    }
+  } else if (l_ == 4) {
+    if (J21_ == 8) {  // G17 wave
+      Ebar_ = -(1.0 / 4.0) * (TMath::Sqrt(5.0 / 3.0) * A32 + A12);
+      Mbar_ = -(1.0 / 4.0) * (TMath::Sqrt(3.0 / 5.0) * A32 - A12);
+    } else {          // G19 wave
+      Ebar_ = (1.0 / 5.0) * (TMath::Sqrt(2.0 / 3.0) * A32 - A12);
+      Mbar_ = -(1.0 / 5.0) * (TMath::Sqrt(3.0 / 2.0) * A32 + A12);
+    }
   }
 }

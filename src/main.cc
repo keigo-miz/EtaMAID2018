@@ -4,8 +4,8 @@
 #include <TFile.h>
 
 int main() {
-  int W = 1880;
-  bool IsE = false;
+  int W = 1535;
+  bool IsE = true;
 
   EtaMaid hmaid;
   hmaid.SetResonanceParameters(W);

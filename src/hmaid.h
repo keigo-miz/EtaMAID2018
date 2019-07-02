@@ -39,6 +39,7 @@ class EtaMaid {
   double PDK(double W, double m1, double m2);
 
   void SetResonanceParameters(int W);
+  void A2M(double A12, double A32);
 
   static const double mpi = 139.57061;  // charged
   static const double mK = 493.677;
@@ -56,6 +57,7 @@ class EtaMaid {
   unsigned int l_;
   unsigned int J21_;  // 2J+1
   int zeta_hN_;
+  int zeta_hpN_;
   double M_R_;
   double G_R_;
   double b_piN_;
