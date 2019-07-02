@@ -33,11 +33,7 @@ class EtaMaid {
   double PhotonVertex();
 
   // PDK function to calculate k, q
-  double PDK(double W, double m1, double m2) {
-    return (TMath::Sqrt((W * W - (m1 + m2) * (m1 + m2)) *
-                        (W * W - (m1 - m2) * (m1 - m2))) /
-            2.0 / W);
-  }
+  double PDK(double W, double m1, double m2);
 
   void SetResonanceParameters(int W);
 

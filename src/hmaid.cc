@@ -92,6 +92,11 @@ double EtaMaid::PhotonVertex() {
   return (kR * kR / k / k);
 }
 
+// PDK function to calculate k, q
+double EtaMaid::PDK(double W, double m1, double m2) {
+  return (TMath::Sqrt((W * W - (m1 + m2) * (m1 + m2)) * (W * W - (m1 - m2) * (m1 - m2))) / 2.0 / W);
+}
+
 // Table 5 and 6
 void EtaMaid::SetResonanceParameters(int W) {
   if (W == 1535) {
