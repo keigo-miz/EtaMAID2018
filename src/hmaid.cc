@@ -181,6 +181,8 @@ void EtaMaid::SetResonanceParameters(int W) {
   g_KS_ = 0.0;
   g_wN_ = 0.0;
   if (W == 1440) g_hN_ = 1.0;
+  if (W == 1650) g_KS_ = 1.21;
+  if (W == 1710) g_wN_ = 0.907;
 }
 
 // Table 2
