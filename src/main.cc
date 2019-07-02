@@ -26,10 +26,12 @@ int main() {
   }
 
   TGraph *tg[kNumRes][4];  // Re_E, Im_E, Re_M, Im_M
+  TString title[4] = {"Re(E)", "Im(E)", "Re(M)", "Im(M)"};
   for (int i = 0; i < kNumRes; i++) {
     for (int j = 0; j < 4; j++) {
       tg[i][j] = new TGraph(kNumPts, xx, yy[i][j]);
       tg[i][j]->SetName(Form("tg%02d_%d", i, j));
+      tg[i][j]->SetTitle(Form("N(%d)  %s", IDs[i], title[j].Data()));
     }
   }
 
