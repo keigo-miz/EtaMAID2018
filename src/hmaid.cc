@@ -157,7 +157,11 @@ void EtaMaid::SetResonanceParameters(int W) {
       b_KS_ = bKS0 * 0.01;
       b_wN_ = bwN0 * 0.01;
       b_hpN_ = bhpN0 * 0.01;
-      g_hpN_ = ghpN0;
+      if (W < 1900) {
+        g_hpN_ = ghpN0;
+      } else {
+        g_hpN_ = 0.0;
+      }
       break;
     }
   }
