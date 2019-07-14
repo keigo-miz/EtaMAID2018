@@ -91,6 +91,7 @@ void Manager::MakeMultipoleRootFile(const char *filename) {
       tg[i][j] = new TGraph(kNumPts, xx, yy[i][j]);
       tg[i][j]->SetName(Form("tg%02d_%d", i, j));
       tg[i][j]->SetTitle(Form("N(%d)  %s", ids_[i], title[j].Data()));
+      tg[i][j]->SetLineColor(kRed);
     }
   }
 
