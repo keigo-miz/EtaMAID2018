@@ -109,10 +109,14 @@ void Manager::MakeMultipoleRootFile(const char *filename) {
 void Manager::F_Born_web(int W) {
   // Reads a dat file.
   TGraph *ref[4];
-  ref[0] = new TGraph(Form("../../20190703/Born/dat/F%04d.dat", W), "%lg %lg %*lg %*lg %*lg");
-  ref[1] = new TGraph(Form("../../20190703/Born/dat/F%04d.dat", W), "%lg %*lg %lg %*lg %*lg");
-  ref[2] = new TGraph(Form("../../20190703/Born/dat/F%04d.dat", W), "%lg %*lg %*lg %lg %*lg");
-  ref[3] = new TGraph(Form("../../20190703/Born/dat/F%04d.dat", W), "%lg %*lg %*lg %*lg %lg");
+  ref[0] = new TGraph(Form("../../20190703/Born/dat/F%04d.dat", W),
+                      "%lg %lg %*lg %*lg %*lg");
+  ref[1] = new TGraph(Form("../../20190703/Born/dat/F%04d.dat", W),
+                      "%lg %*lg %lg %*lg %*lg");
+  ref[2] = new TGraph(Form("../../20190703/Born/dat/F%04d.dat", W),
+                      "%lg %*lg %*lg %lg %*lg");
+  ref[3] = new TGraph(Form("../../20190703/Born/dat/F%04d.dat", W),
+                      "%lg %*lg %*lg %*lg %lg");
   for (int i = 0; i < 4; i++) {
     ref[i]->SetMarkerStyle(20);
     ref[i]->SetMarkerSize(0.3);
