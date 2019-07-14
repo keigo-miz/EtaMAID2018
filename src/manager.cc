@@ -79,16 +79,41 @@ void Manager::ResonanceMultipole() {
 void Manager::ResonanceCGLN(int W) {
   const int kNum = 200;
   double x[kNum], y[4][2][kNum];
+  TComplex sum;
   for (int j = 0; j < kNum; j++) {
     x[j] = -1.0 + 0.01 * j;
-    y[0][0][j] = -F1((double)W, x[j]).Re();
-    y[0][1][j] = -F1((double)W, x[j]).Im();
-    y[1][0][j] = -F2((double)W, x[j]).Re();
-    y[1][1][j] = -F2((double)W, x[j]).Im();
-    y[2][0][j] = -F3((double)W, x[j]).Re();
-    y[2][1][j] = -F3((double)W, x[j]).Im();
-    y[3][0][j] = -F4((double)W, x[j]).Re();
-    y[3][1][j] = -F4((double)W, x[j]).Im();
+
+    // F1
+    sum = TComplex(0.0, 0.0);
+    for (int k = 0; k < kNumResonances; k++) {
+      sum += resonances_[k].F1((double)W, x[j]);
+    }
+    y[0][0][j] = -sum.Re();
+    y[0][1][j] = -sum.Im();
+
+    // F2
+    sum = TComplex(0.0, 0.0);
+    for (int k = 0; k < kNumResonances; k++) {
+      sum += resonances_[k].F2((double)W, x[j]);
+    }
+    y[1][0][j] = -sum.Re();
+    y[1][1][j] = -sum.Im();
+
+    // F3
+    sum = TComplex(0.0, 0.0);
+    for (int k = 0; k < kNumResonances; k++) {
+      sum += resonances_[k].F3((double)W, x[j]);
+    }
+    y[2][0][j] = -sum.Re();
+    y[2][1][j] = -sum.Im();
+
+    // F4
+    sum = TComplex(0.0, 0.0);
+    for (int k = 0; k < kNumResonances; k++) {
+      sum += resonances_[k].F4((double)W, x[j]);
+    }
+    y[3][0][j] = -sum.Re();
+    y[3][1][j] = -sum.Im();
   }
   TGraph *tg[4][2];
   for (int i = 0; i < 4; i++) {
