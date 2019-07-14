@@ -35,9 +35,6 @@ class Born {
   double D();
   double PDK(double W, double m1, double m2);
 
-  // for debug
-  TGraph F_web(int i);
-
  private:
   double W_;
   double costh_;

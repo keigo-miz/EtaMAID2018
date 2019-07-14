@@ -66,20 +66,3 @@ double Born::PDK(double W, double m1, double m2) {
                       (W * W - (m1 - m2) * (m1 - m2))) /
           2.0 / W);
 }
-
-// for debug
-TGraph Born::F_web(int i) {
-  const int kNum = 200;
-  double x[kNum], y[kNum];
-  for (int j = 0; j < kNum; j++) {
-    x[j] = -1.0 + 0.01 * j;
-    set_costh(x[j]);
-    if (i == 1) y[j] = -F1();
-    if (i == 2) y[j] = -F2();
-    if (i == 3) y[j] = -F3();
-    if (i == 4) y[j] = -F4();
-  }
-  TGraph tg(kNum, x, y);
-  tg.SetLineColor(2);
-  return tg;
-}
