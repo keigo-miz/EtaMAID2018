@@ -41,6 +41,13 @@ class Manager {
   // in main.cc
   void BornCGLN(int W);
 
+  // Generates a root file containing Res+Born CGLN amplitudes.
+  //
+  // eg.
+  //   manager.ResBornCGLN(2000);
+  // in main.cc
+  void ResBornCGLN(int W);
+
   static const int kNumResonances = 21;
 
  private:

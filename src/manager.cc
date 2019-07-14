@@ -140,7 +140,6 @@ void Manager::BornCGLN(int W) {
   double x[kNum], y[4][kNum];
   for (int j = 0; j < kNum; j++) {
     x[j] = -1.0 + 0.01 * j;
-    born_.set_costh(x[j]);
     y[0][j] = -born_.F1((double)W, x[j]);
     y[1][j] = -born_.F2((double)W, x[j]);
     y[2][j] = -born_.F3((double)W, x[j]);
@@ -156,6 +155,45 @@ void Manager::BornCGLN(int W) {
   TFile *file0 = new TFile(Form("rt/born_cgln%04d.root", W), "recreate");
   for (int i = 0; i < 4; i++) {
     tg[i]->Write();
+  }
+  file0->Close();
+}
+
+void Manager::ResBornCGLN(int W) {
+  const int kNum = 200;
+  double x[kNum], y[4][2][kNum];
+  TComplex tmp;
+  for (int j = 0; j < kNum; j++) {
+    x[j] = -1.0 + 0.01 * j;
+
+    tmp = F1((double)W, x[j]);
+    y[0][0][j] = -tmp.Re();
+    y[0][1][j] = -tmp.Im();
+
+    tmp = F2((double)W, x[j]);
+    y[1][0][j] = -tmp.Re();
+    y[1][1][j] = -tmp.Im();
+
+    tmp = F3((double)W, x[j]);
+    y[2][0][j] = -tmp.Re();
+    y[2][1][j] = -tmp.Im();
+
+    tmp = F4((double)W, x[j]);
+    y[3][0][j] = -tmp.Re();
+    y[3][1][j] = -tmp.Im();
+  }
+  TGraph *tg[4][2];
+  for (int i = 0; i < 4; i++) {
+    for (int j = 0; j < 2; j++) {
+      tg[i][j] = new TGraph(kNum, x, y[i][j]);
+      tg[i][j]->SetName(Form("tg%d_%d", i, j));
+      tg[i][j]->SetLineColor(kRed);
+    }
+  }
+
+  TFile *file0 = new TFile(Form("rt/res_born_cgln%04d.root", W), "recreate");
+  for (int i = 0; i < 4; i++) {
+    for (int j = 0; j < 2; j++) tg[i][j]->Write();
   }
   file0->Close();
 }
