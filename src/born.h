@@ -2,7 +2,6 @@
 #define BORN_H_
 
 #include <TComplex.h>
-#include <TGraph.h>
 
 // L. Tiator et al., Eur. Phys. J. A 54, 210 (2018)
 class Born {
