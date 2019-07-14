@@ -105,3 +105,45 @@ void Manager::MakeMultipoleRootFile(const char *filename) {
   }
   file0->Close();
 }
+
+void Manager::F_Born_web(int W) {
+  // Reads a dat file.
+  TGraph *ref[4];
+  ref[0] = new TGraph(Form("../../20190703/Born/dat/F%04d.dat", W), "%lg %lg %*lg %*lg %*lg");
+  ref[1] = new TGraph(Form("../../20190703/Born/dat/F%04d.dat", W), "%lg %*lg %lg %*lg %*lg");
+  ref[2] = new TGraph(Form("../../20190703/Born/dat/F%04d.dat", W), "%lg %*lg %*lg %lg %*lg");
+  ref[3] = new TGraph(Form("../../20190703/Born/dat/F%04d.dat", W), "%lg %*lg %*lg %*lg %lg");
+  for (int i = 0; i < 4; i++) {
+    ref[i]->SetMarkerStyle(20);
+    ref[i]->SetMarkerSize(0.3);
+  }
+
+  born_.set_W((double)W);
+  TGraph tg[4];
+  for (int i = 0; i < 4; i++) tg[i] = born_.F_web(i + 1);
+
+  TCanvas *c1 = new TCanvas("c1", "c1", 600, 600);
+  c1->Divide(2, 2);
+  TH1 *frame[4];
+  TLine *line = new TLine(-1.0, 0.0, 1.0, 0.0);
+  line->SetLineStyle(3);
+  for (int i = 0; i < 4; i++) {
+    double min = +1.0e+6, max = -1.0e+6;
+    for (int j = 0; j < ref[i]->GetN(); j++) {
+      if (ref[i]->GetY()[j] < min) min = ref[i]->GetY()[j];
+      if (ref[i]->GetY()[j] > max) max = ref[i]->GetY()[j];
+    }
+    if (min > 0.0) min = 0.0;
+    if (max < 0.0) max = 0.0;
+    double m = (max - min) * 0.1;
+    frame[i] = c1->cd(i + 1)->DrawFrame(-1.0, min - m, 1.0, max + m);
+    frame[i]->SetTitle(Form("F_{%d}  (W = %04d MeV)", i + 1, W));
+    frame[i]->GetXaxis()->SetTitle("cos#theta");
+    frame[i]->GetYaxis()->SetTitle("(mfm)");
+    line->Draw();
+    ref[i]->Draw("p");
+    tg[i].Draw("l");
+  }
+
+  c1->Print(Form("comp%04d.pdf", W));
+}
