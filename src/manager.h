@@ -6,9 +6,6 @@
 
 #include "TGraph.h"
 #include "TFile.h"
-#include "TCanvas.h"
-#include "TLine.h"
-#include "TH1.h"
 
 class Manager {
  public:
@@ -21,29 +18,28 @@ class Manager {
 
   Resonance resonance(int i) const { return resonances_[i]; }
 
-  // Followings are methods for debugging.
+  // Following methods are for debugging.
 
-  // Generates a root file which contains 21*4 TGraph's.
-  // Energy dependences of multipoles for each resonance.
+  // Generates a root file containing multipoles.
   //
   // eg.
-  //   manager.MakeMultipoleRootFile("rt/out.root");
+  //   manager.ResonanceMultipole();
   // in main.cc
-  void MakeMultipoleRootFile(const char *filename);
+  void ResonanceMultipole();
 
-  // Generates a root file which contains CGLN amplitudes.
+  // Generates a root file containing Resonance CGLN amplitudes.
   //
   // eg.
-  //   manager.F_web(2000);
+  //   manager.ResonanceCGLN(2000);
   // in main.cc
-  void F_web(int W);
+  void ResonanceCGLN(int W);
 
-  // Generates a root file which contains Born CGLN amplitudes.
+  // Generates a root file containing Born CGLN amplitudes.
   //
   // eg.
-  //   manager.F_Born_web(2000);
+  //   manager.BornCGLN(2000);
   // in main.cc
-  void F_Born_web(int W);
+  void BornCGLN(int W);
 
   static const int kNumResonances = 21;
 
