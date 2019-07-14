@@ -1,21 +1,20 @@
-#include "hmaid.h"
+#include "resonance.h"
 
-// L. Tiator et al.
-// Eur. Phys. J. A (2018) 54: 210
+// L. Tiator et al., Eur. Phys. J. A 54, 210 (2018)
 
-TComplex EtaMaid::Multipole(double W, bool IsE) {
+TComplex Resonance::Multipole(double W, bool IsE) {
   set_W(W);
   double tmp_bar = (IsE ? Ebar_ : Mbar_);
   return (t(tBW(tmp_bar)) * MeVfm_inv / TMath::Sqrt(1000.0));
 }
 
 // Eq. (33)
-TComplex EtaMaid::t(TComplex tBW) {
+TComplex Resonance::t(TComplex tBW) {
   return (tBW * TComplex::Exp(TComplex(0.0, phi_ * TMath::Pi() / 180.0)));
 }
 
 // Eq. (34)
-TComplex EtaMaid::tBW(double Mbar) {
+TComplex Resonance::tBW(double Mbar) {
   // C_{\eta N} = -1
   std::pair<double, double> widths = GammaTotal();
   double f_hN = BreitWignerFactor(widths);
@@ -25,7 +24,7 @@ TComplex EtaMaid::tBW(double Mbar) {
 }
 
 // Eq. (36)
-std::pair<double, double> EtaMaid::GammaTotal() {
+std::pair<double, double> Resonance::GammaTotal() {
   double Gtot = 0.0, G_hN = 0.0;
   if (W_ > 1077.84) {  // piN threshold
     Gtot += PartialWidth(b_piN_, mpi, mN, false);
@@ -69,8 +68,8 @@ std::pair<double, double> EtaMaid::GammaTotal() {
 }
 
 // Eqs. (37)-(39)
-double EtaMaid::PartialWidth(double beta, double m_meson, double m_baryon,
-                             bool pi2) {
+double Resonance::PartialWidth(double beta, double m_meson, double m_baryon,
+                               bool pi2) {
   if (beta < 1.0e-6) return 0.0;
   const double X = 450.0;  // cut-off [MeV]
 
@@ -90,8 +89,8 @@ double EtaMaid::PartialWidth(double beta, double m_meson, double m_baryon,
 }
 
 // Eq. (45)
-double EtaMaid::PartialWidthBelowThr(double g, double m_meson,
-                                     double m_baryon) {
+double Resonance::PartialWidthBelowThr(double g, double m_meson,
+                                       double m_baryon) {
   const double X = 450.0;  // cut-off [MeV]
   const double q = PDK(W_, m_meson, m_baryon);
 
@@ -105,7 +104,7 @@ double EtaMaid::PartialWidthBelowThr(double g, double m_meson,
 
 // Eq. (35)
 // widths.first: G_tot, widths.second: G_hN
-double EtaMaid::BreitWignerFactor(std::pair<double, double> widths) {
+double Resonance::BreitWignerFactor(std::pair<double, double> widths) {
   double k = PDK(W_, 0.0, mN);
   double q = PDK(W_, mh, mN);
 
@@ -114,7 +113,7 @@ double EtaMaid::BreitWignerFactor(std::pair<double, double> widths) {
 }
 
 // Eq. (40)
-double EtaMaid::PhotonVertex() {
+double Resonance::PhotonVertex() {
   // X_{\gamma} = 0
   double k = PDK(W_, 0.0, mN);
   double kR = PDK(M_R_, 0.0, mN);
@@ -124,14 +123,14 @@ double EtaMaid::PhotonVertex() {
 
 // PDK function to calculate k, q
 // Take an absolute value..
-double EtaMaid::PDK(double W, double m1, double m2) {
+double Resonance::PDK(double W, double m1, double m2) {
   return (TMath::Sqrt(TMath::Abs((W * W - (m1 + m2) * (m1 + m2)) *
                                  (W * W - (m1 - m2) * (m1 - m2)))) /
           2.0 / W);
 }
 
 // Table 5 and 6
-void EtaMaid::SetResonanceParameters(int W) {
+void Resonance::SetResonanceParameters(int W) {
   // Reads multipoles.
   FILE *fp = fopen("dat/Table5.dat", "r");
   char buf[256];
@@ -190,7 +189,7 @@ void EtaMaid::SetResonanceParameters(int W) {
 }
 
 // Table 2
-void EtaMaid::A2M(double A12, double A32) {
+void Resonance::A2M(double A12, double A32) {
   if (l_ == 0) {  // S11 wave
     Ebar_ = -A12;
     Mbar_ = 0.0;

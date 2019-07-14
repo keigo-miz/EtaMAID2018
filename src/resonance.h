@@ -1,14 +1,13 @@
-#ifndef HMAID_H_
-#define HMAID_H_
+#ifndef RESONANCE_H_
+#define RESONANCE_H_
 
 #include <TComplex.h>
 #include <Math/SpecFunc.h>
 
-// L. Tiator et al.
-// Eur. Phys. J. A (2018) 54: 210
-class EtaMaid {
+// L. Tiator et al., Eur. Phys. J. A 54, 210 (2018)
+class Resonance {
  public:
-  EtaMaid() {}
+  Resonance() {}
 
   void set_W(double W) { W_ = W; }
 
@@ -81,4 +80,4 @@ class EtaMaid {
   double Mbar_;
 };
 
-#endif  // HMAID_H_
+#endif  // RESONANCE_H_
