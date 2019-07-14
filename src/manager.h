@@ -3,6 +3,7 @@
 
 #include "resonance.h"
 #include "born.h"
+#include "regge.h"
 
 #include "TGraph.h"
 #include "TFile.h"
@@ -54,6 +55,7 @@ class Manager {
   int ids_[kNumResonances];
   Resonance resonances_[kNumResonances];
   Born born_;
+  Regge regge_;
 };
 
 #endif  // MANAGER_H_
