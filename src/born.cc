@@ -3,7 +3,9 @@
 // L. Tiator et al., Eur. Phys. J. A 54, 210 (2018)
 
 // [mfm]
-double Born::F1() {
+double Born::F1(double W, double costh) {
+  set_W(W);
+  set_costh(costh);
   double F1 =
       (-e_p + (W_ - mN) * kappa_p / 2.0 / mN) * D() +
       (t() - mh * mh) * kappa_p / (2.0 * mN * (W_ - mN) * (u() - mN * mN));
@@ -12,7 +14,9 @@ double Born::F1() {
 }
 
 // [mfm]
-double Born::F2() {
+double Born::F2(double W, double costh) {
+  set_W(W);
+  set_costh(costh);
   double F2 =
       (e_p + (W_ + mN) * kappa_p / 2.0 / mN) * D() +
       (t() - mh * mh) * kappa_p / (2.0 * mN * (W_ + mN) * (u() - mN * mN));
@@ -21,7 +25,9 @@ double Born::F2() {
 }
 
 // [mfm]
-double Born::F3() {
+double Born::F3(double W, double costh) {
+  set_W(W);
+  set_costh(costh);
   double F3 = 2 * e_p * (W_ - mN) * D() / (t() - mh * mh) -
               kappa_p / mN / (u() - mN * mN);
   F3 *= g() * C() * q();
@@ -29,7 +35,9 @@ double Born::F3() {
 }
 
 // [mfm]
-double Born::F4() {
+double Born::F4(double W, double costh) {
+  set_W(W);
+  set_costh(costh);
   double F4 = -2 * e_p * (W_ + mN) * D() / (t() - mh * mh) -
               kappa_p / mN / (u() - mN * mN);
   F4 *= g() * C() * q() * q() / (E2() + mN);

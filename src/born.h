@@ -22,10 +22,10 @@ class Born {
   static const int e_p = 1;
   static const int e_n = 0;
 
-  double F1();  // [mfm]
-  double F2();  // [mfm]
-  double F3();  // [mfm]
-  double F4();  // [mfm]
+  double F1(double W, double costh);  // [mfm]
+  double F2(double W, double costh);  // [mfm]
+  double F3(double W, double costh);  // [mfm]
+  double F4(double W, double costh);  // [mfm]
   double g();
   double t();
   double u();

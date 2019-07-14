@@ -15,6 +15,7 @@ TComplex Manager::F1(double W, double costh) {
   for (int i = 0; i < kNumResonances; i++) {
     sum += resonances_[i].F1(W, costh);
   }
+  sum += born_.F1(W, costh);
   return sum;
 }
 
@@ -23,6 +24,7 @@ TComplex Manager::F2(double W, double costh) {
   for (int i = 0; i < kNumResonances; i++) {
     sum += resonances_[i].F2(W, costh);
   }
+  sum += born_.F2(W, costh);
   return sum;
 }
 
@@ -31,6 +33,7 @@ TComplex Manager::F3(double W, double costh) {
   for (int i = 0; i < kNumResonances; i++) {
     sum += resonances_[i].F3(W, costh);
   }
+  sum += born_.F3(W, costh);
   return sum;
 }
 
@@ -39,6 +42,7 @@ TComplex Manager::F4(double W, double costh) {
   for (int i = 0; i < kNumResonances; i++) {
     sum += resonances_[i].F4(W, costh);
   }
+  sum += born_.F4(W, costh);
   return sum;
 }
 
@@ -132,16 +136,15 @@ void Manager::ResonanceCGLN(int W) {
 }
 
 void Manager::BornCGLN(int W) {
-  born_.set_W((double)W);
   const int kNum = 200;
   double x[kNum], y[4][kNum];
   for (int j = 0; j < kNum; j++) {
     x[j] = -1.0 + 0.01 * j;
     born_.set_costh(x[j]);
-    y[0][j] = -born_.F1();
-    y[1][j] = -born_.F2();
-    y[2][j] = -born_.F3();
-    y[3][j] = -born_.F4();
+    y[0][j] = -born_.F1((double)W, x[j]);
+    y[1][j] = -born_.F2((double)W, x[j]);
+    y[2][j] = -born_.F3((double)W, x[j]);
+    y[3][j] = -born_.F4((double)W, x[j]);
   }
   TGraph *tg[4];
   for (int i = 0; i < 4; i++) {
