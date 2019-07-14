@@ -43,30 +43,34 @@ TComplex Manager::F4(double W, double costh) {
 }
 
 // for debug
-std::pair<TGraph, TGraph> Manager::F_web(int i, double W) {
+void Manager::F_web(int W) {
   const int kNum = 200;
-  double x[kNum], y0[kNum], y1[kNum];
+  double x[kNum], y[4][2][kNum];
   for (int j = 0; j < kNum; j++) {
     x[j] = -1.0 + 0.01 * j;
-    if (i == 1) {
-      y0[j] = -F1(W, x[j]).Re();
-      y1[j] = -F1(W, x[j]).Im();
-    } else if (i == 2) {
-      y0[j] = -F2(W, x[j]).Re();
-      y1[j] = -F2(W, x[j]).Im();
-    } else if (i == 3) {
-      y0[j] = -F3(W, x[j]).Re();
-      y1[j] = -F3(W, x[j]).Im();
-    } else if (i == 4) {
-      y0[j] = -F4(W, x[j]).Re();
-      y1[j] = -F4(W, x[j]).Im();
+    y[0][0][j] = -F1((double)W, x[j]).Re();
+    y[0][1][j] = -F1((double)W, x[j]).Im();
+    y[1][0][j] = -F2((double)W, x[j]).Re();
+    y[1][1][j] = -F2((double)W, x[j]).Im();
+    y[2][0][j] = -F3((double)W, x[j]).Re();
+    y[2][1][j] = -F3((double)W, x[j]).Im();
+    y[3][0][j] = -F4((double)W, x[j]).Re();
+    y[3][1][j] = -F4((double)W, x[j]).Im();
+  }
+  TGraph *tg[4][2];
+  for (int i = 0; i < 4; i++) {
+    for (int j = 0; j < 2; j++) {
+      tg[i][j] = new TGraph(kNum, x, y[i][j]);
+      tg[i][j]->SetName(Form("tg%d_%d", i, j));
+      tg[i][j]->SetLineColor(kRed);
     }
   }
-  TGraph tg0(kNum, x, y0);
-  tg0.SetLineColor(2);
-  TGraph tg1(kNum, x, y1);
-  tg1.SetLineColor(2);
-  return std::make_pair(tg0, tg1);
+
+  TFile *file0 = new TFile(Form("rt/%04d.root", W), "recreate");
+  for (int i = 0; i < 4; i++) {
+    for (int j = 0; j < 2; j++) tg[i][j]->Write();
+  }
+  file0->Close();
 }
 
 void Manager::MakeMultipoleRootFile(const char *filename) {

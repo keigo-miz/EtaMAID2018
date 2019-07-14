@@ -15,7 +15,7 @@ class Manager {
   TComplex F3(double W, double costh);
   TComplex F4(double W, double costh);
 
-  std::pair<TGraph, TGraph> F_web(int i, double W);
+  void F_web(int W);
 
   // Generates a root file which contains 21*4 TGraph's.
   // Energy dependences of multipoles for each resonance.

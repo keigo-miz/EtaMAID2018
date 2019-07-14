@@ -1,12 +1,8 @@
-#include <cstdio>
 #include "manager.h"
-#include <TGraph.h>
-#include <TFile.h>
 
 int main() {
   Manager manager;
-
-  manager.MakeMultipoleRootFile("rt/out.root");
-
+  // manager.MakeMultipoleRootFile("rt/out.root");
+  manager.F_web(2000);
   return 0;
 }
