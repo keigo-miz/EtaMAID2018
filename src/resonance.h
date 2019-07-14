@@ -11,7 +11,7 @@ class Resonance {
 
   void set_W(double W) { W_ = W; }
 
-  TComplex Multipole(double W, bool IsE);
+  TComplex Multipole(double W, bool IsE);  // [mfm]
 
   // Eq. (33)
   TComplex t(TComplex tBW);
@@ -40,6 +40,14 @@ class Resonance {
 
   void SetResonanceParameters(int W);
   void A2M(double A12, double A32);
+
+  // CGLN amplitudes
+  TComplex F1(double W, double x);             // [mfm], x = costh
+  TComplex F2(double W, double x);             // [mfm], x = costh
+  TComplex F3(double W, double x);             // [mfm], x = costh
+  TComplex F4(double W, double x);             // [mfm], x = costh
+  double dP(unsigned int l, double x) const;   // P'_{l}(x)
+  double ddP(unsigned int l, double x) const;  // P''_{l}(x)
 
   static const double mpi = 139.57061;  // charged
   static const double mK = 493.677;

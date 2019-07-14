@@ -2,6 +2,7 @@
 
 // L. Tiator et al., Eur. Phys. J. A 54, 210 (2018)
 
+// [mfm]
 TComplex Resonance::Multipole(double W, bool IsE) {
   set_W(W);
   double tmp_bar = (IsE ? Ebar_ : Mbar_);
@@ -225,5 +226,102 @@ void Resonance::A2M(double A12, double A32) {
       Ebar_ = (1.0 / 5.0) * (TMath::Sqrt(2.0 / 3.0) * A32 - A12);
       Mbar_ = -(1.0 / 5.0) * (TMath::Sqrt(3.0 / 2.0) * A32 + A12);
     }
+  }
+}
+
+// CGLN amplitudes
+// [mfm]
+TComplex Resonance::F1(double W, double x) {
+  // Determines plus-minus of multipoles A_{l\pm}.
+  bool IsPlus = true;
+  if (J21_ == 2 * l_) IsPlus = false;
+
+  if (IsPlus) {
+    return dP(l_ + 1, x) *
+           (((double)l_) * Multipole(W, false) + Multipole(W, true));
+  } else if (l_ >= 2) {
+    return dP(l_ - 1, x) *
+           ((l_ + 1.0) * Multipole(W, false) + Multipole(W, true));
+  } else {
+    return TComplex(0.0, 0.0);
+  }
+}
+
+// [mfm]
+TComplex Resonance::F2(double W, double x) {
+  // Determines plus-minus of multipoles A_{l\pm}.
+  bool IsPlus = true;
+  if (J21_ == 2 * l_) IsPlus = false;
+
+  if (IsPlus && l_ >= 1) {
+    return dP(l_, x) * ((l_ + 1.0) * Multipole(W, false));
+  } else if (!IsPlus && l_ >= 1) {
+    return dP(l_, x) * (((double)l_) * Multipole(W, false));
+  } else {
+    return TComplex(0.0, 0.0);
+  }
+}
+
+// [mfm]
+TComplex Resonance::F3(double W, double x) {
+  // Determines plus-minus of multipoles A_{l\pm}.
+  bool IsPlus = true;
+  if (J21_ == 2 * l_) IsPlus = false;
+
+  if (IsPlus && l_ >= 1) {
+    return ddP(l_ + 1, x) * (Multipole(W, true) - Multipole(W, false));
+  } else if (!IsPlus && l_ >= 3) {
+    return ddP(l_ - 1, x) * (Multipole(W, true) + Multipole(W, false));
+  } else {
+    return TComplex(0.0, 0.0);
+  }
+}
+
+// [mfm]
+TComplex Resonance::F4(double W, double x) {
+  // Determines plus-minus of multipoles A_{l\pm}.
+  bool IsPlus = true;
+  if (J21_ == 2 * l_) IsPlus = false;
+
+  if (IsPlus && l_ >= 2) {
+    return ddP(l_, x) * (Multipole(W, false) - Multipole(W, true));
+  } else if (!IsPlus && l_ >= 2) {
+    return ddP(l_, x) * (-Multipole(W, false) - Multipole(W, true));
+  } else {
+    return TComplex(0.0, 0.0);
+  }
+}
+
+// P'_{l}(x)
+double Resonance::dP(unsigned int l, double x) const {
+  if (x >= 1.0) {
+    return (l * (l + 1.0) / 2.0);
+  } else if (x <= -1.0) {
+    if (l % 2 == 0) {
+      return (-(l * (l + 1.0) / 2.0));
+    } else {
+      return (l * (l + 1.0) / 2.0);
+    }
+  } else {
+    return (l *
+            (x * ROOT::Math::legendre(l, x) - ROOT::Math::legendre(l - 1, x)) /
+            (x * x - 1.0));
+  }
+}
+
+// P''_{l}(x)
+double Resonance::ddP(unsigned int l, double x) const {
+  if (x >= 1.0) {
+    return ((l - 1.0) * l * (l + 1.0) * (l + 2.0) / 8.0);
+  } else if (x <= -1.0) {
+    if (l % 2 == 0) {
+      return ((l - 1.0) * l * (l + 1.0) * (l + 2.0) / 8.0);
+    } else {
+      return (-((l - 1.0) * l * (l + 1.0) * (l + 2.0) / 8.0));
+    }
+  } else {
+    return (l * (2 * x * ROOT::Math::legendre(l - 1, x) +
+                 ((l - 1) * x * x - l - 1) * ROOT::Math::legendre(l, x)) /
+            (x * x - 1.0) / (x * x - 1.0));
   }
 }
