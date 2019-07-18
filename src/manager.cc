@@ -121,11 +121,11 @@ void Manager::ResonanceMultipole() {
 }
 
 void Manager::ResonanceCGLN(int W) {
-  const int kNum = 200;
+  const int kNum = 2000;
   double x[kNum], y[4][2][kNum];
   TComplex sum;
   for (int j = 0; j < kNum; j++) {
-    x[j] = -1.0 + 0.01 * j;
+    x[j] = -1.0 + 0.001 * j;
 
     // F1
     sum = TComplex(0.0, 0.0);
@@ -176,10 +176,10 @@ void Manager::ResonanceCGLN(int W) {
 }
 
 void Manager::BornCGLN(int W) {
-  const int kNum = 200;
+  const int kNum = 2000;
   double x[kNum], y[4][kNum];
   for (int j = 0; j < kNum; j++) {
-    x[j] = -1.0 + 0.01 * j;
+    x[j] = -1.0 + 0.001 * j;
     y[0][j] = -born_.F1((double)W, x[j]);
     y[1][j] = -born_.F2((double)W, x[j]);
     y[2][j] = -born_.F3((double)W, x[j]);
@@ -200,11 +200,11 @@ void Manager::BornCGLN(int W) {
 }
 
 void Manager::ReggeCGLN(int W) {
-  const int kNum = 200;
+  const int kNum = 2000;
   double x[kNum], y[4][2][kNum];
   TComplex tmp;
   for (int j = 0; j < kNum; j++) {
-    x[j] = -1.0 + 0.01 * j;
+    x[j] = -1.0 + 0.001 * j;
 
     tmp = regge_.F1((double)W, x[j]);
     y[0][0][j] = -tmp.Re();
@@ -239,11 +239,11 @@ void Manager::ReggeCGLN(int W) {
 }
 
 void Manager::ResBornCGLN(int W) {
-  const int kNum = 200;
+  const int kNum = 2000;
   double x[kNum], y[4][2][kNum];
   TComplex tmp;
   for (int j = 0; j < kNum; j++) {
-    x[j] = -1.0 + 0.01 * j;
+    x[j] = -1.0 + 0.001 * j;
 
     tmp = F1_res_born((double)W, x[j]);
     y[0][0][j] = -tmp.Re();
@@ -278,11 +278,11 @@ void Manager::ResBornCGLN(int W) {
 }
 
 void Manager::FullCGLN(int W) {
-  const int kNum = 200;
+  const int kNum = 2000;
   double x[kNum], y[4][2][kNum];
   TComplex tmp;
   for (int j = 0; j < kNum; j++) {
-    x[j] = -1.0 + 0.01 * j;
+    x[j] = -1.0 + 0.001 * j;
 
     tmp = F1((double)W, x[j]);
     y[0][0][j] = -tmp.Re();
