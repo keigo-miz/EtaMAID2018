@@ -104,7 +104,6 @@ TComplex Regge::A4(double t) {
 }
 
 void Regge::A2F(double t) {
-  IsProton_ = 1;
   A1(t);
   A2p(t);
   A3(t);
@@ -128,6 +127,7 @@ void Regge::A2F(double t) {
   F4_ = GeVmfm_inv * TComplex(re1[3], im1[3]);
 }
 
+// [mfm]
 TComplex Regge::F1(double W, double costh) {
   set_W(W / 1000.0);
   set_costh(costh);
@@ -135,6 +135,7 @@ TComplex Regge::F1(double W, double costh) {
   return F1_;
 }
 
+// [mfm]
 TComplex Regge::F2(double W, double costh) {
   set_W(W / 1000.0);
   set_costh(costh);
@@ -142,6 +143,7 @@ TComplex Regge::F2(double W, double costh) {
   return F2_;
 }
 
+// [mfm]
 TComplex Regge::F3(double W, double costh) {
   set_W(W / 1000.0);
   set_costh(costh);
@@ -149,6 +151,7 @@ TComplex Regge::F3(double W, double costh) {
   return F3_;
 }
 
+// [mfm]
 TComplex Regge::F4(double W, double costh) {
   set_W(W / 1000.0);
   set_costh(costh);

@@ -8,7 +8,7 @@
 // L. Tiator et al., Eur. Phys. J. A 54, 210 (2018)
 class Regge {
  public:
-  Regge() {}
+  Regge() : IsProton_(1) {}
 
   void set_W(double W) { W_ = W; }
   void set_costh(double costh) { costh_ = costh; }
