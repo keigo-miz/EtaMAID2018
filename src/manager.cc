@@ -16,6 +16,7 @@ TComplex Manager::F1(double W, double costh) {
     sum += resonances_[i].F1(W, costh);
   }
   sum += born_.F1(W, costh);
+  sum += regge_.F1(W, costh);
   return sum;
 }
 
@@ -25,6 +26,7 @@ TComplex Manager::F2(double W, double costh) {
     sum += resonances_[i].F2(W, costh);
   }
   sum += born_.F2(W, costh);
+  sum += regge_.F2(W, costh);
   return sum;
 }
 
@@ -34,6 +36,7 @@ TComplex Manager::F3(double W, double costh) {
     sum += resonances_[i].F3(W, costh);
   }
   sum += born_.F3(W, costh);
+  sum += regge_.F3(W, costh);
   return sum;
 }
 
@@ -43,6 +46,7 @@ TComplex Manager::F4(double W, double costh) {
     sum += resonances_[i].F4(W, costh);
   }
   sum += born_.F4(W, costh);
+  sum += regge_.F4(W, costh);
   return sum;
 }
 

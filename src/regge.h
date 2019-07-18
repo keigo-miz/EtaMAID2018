@@ -76,11 +76,16 @@ class Regge {
   static const double ap_wP = 0.197;
 
   TComplex A1(double t);
-  TComplex A2(double t);
   TComplex A2p(double t);
   TComplex A3(double t);
   TComplex A4(double t);
-  double ForFit(double *par);
+  TComplex F1(double W, double costh);
+  TComplex F2(double W, double costh);
+  TComplex F3(double W, double costh);
+  TComplex F4(double W, double costh);
+
+  // Converts invariant amplitudes {A_i} to CGLN amplitudes {F_i}.
+  void A2F(double t);
 
   TComplex D(double s, double t, double a0, double ap, double S);
   TComplex Dcut(double s, double t, double a0, double ap, double d_c);
@@ -102,6 +107,15 @@ class Regge {
  private:
   double W_;
   double costh_;
+
+  TComplex A1_;
+  TComplex A2p_;
+  TComplex A3_;
+  TComplex A4_;
+  TComplex F1_;
+  TComplex F2_;
+  TComplex F3_;
+  TComplex F4_;
 
   int IsProton_;
 };

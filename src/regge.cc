@@ -49,7 +49,9 @@ TComplex Regge::A1(double t) {
   TComplex rho_tmp = Drho + c_pP * DrhoP + c_pf * Drhof;
   rho_tmp = l_rho * gt_rho * rho_tmp;
   if (IsProton_ == 0) rho_tmp = -1.0 * rho_tmp;
-  return (Fd(W_) * t * e / 2.0 / mh / mN * rho_tmp);
+
+  A1_ = Fd(W_) * t * e / 2.0 / mh / mN * rho_tmp;
+  return A1_;
 }
 
 TComplex Regge::A2p(double t) {
@@ -58,12 +60,16 @@ TComplex Regge::A2p(double t) {
   TComplex Drhof = Dcut(s, t, a0_pf, ap_pf, dc_pf);
 
   TComplex first = l_b1 * gt_b1 * Db1;
+  if (IsProton_ == 1) {
+    first = 5.0 / 3.0 * first;
+  } else {
+    first = -1.0 / 3.0 * first;
+  }
   TComplex second = l_rho * gt_rho * ct_pf * Drhof;
 
-  return (-Fd(W_) * t * e / 2.0 / mh / mN * (first + second));
+  A2p_ =  -Fd(W_) * t * e / 2.0 / mh / mN * (first + second);
+  return A2p_;
 }
-
-TComplex Regge::A2(double t) { return (1.0 / t) * (A2p(t) - A1(t)); }
 
 TComplex Regge::A3(double t) {
   double s = W_ * W_;
@@ -74,7 +80,8 @@ TComplex Regge::A3(double t) {
   if (IsProton_ == 0) first = -1.0 * first;
   TComplex second = l_omega * gv_omega * ct_wf * Domegaf;
 
-  return (Fd(W_) * e / mh * (first + second));
+  A3_ = Fd(W_) * e / mh * (first + second);
+  return A3_;
 }
 
 TComplex Regge::A4(double t) {
@@ -92,20 +99,60 @@ TComplex Regge::A4(double t) {
   TComplex omega_tmp = Domega + c_wP * DomegaP + c_wf * Domegaf;
   omega_tmp = l_omega * gv_omega * omega_tmp;
 
-  return (-Fd(W_) * e / mh * (rho_tmp + omega_tmp));
+  A4_ = -Fd(W_) * e / mh * (rho_tmp + omega_tmp);
+  return A4_;
 }
 
-double Regge::ForFit(double *par) {
-  double s = W_ * W_;
-  double tt = t();
-  TComplex Drhof = Dcut(s, tt, a0_pf, ap_pf, par[0]);
-  TComplex Domegaf = Dcut(s, tt, a0_wf, ap_wf, par[1]);
+void Regge::A2F(double t) {
+  A1(t);
+  A2p(t);
+  A3(t);
+  A4(t);
+  TVectorD re0(4), im0(4);
+  re0[0] = A1_.Re();
+  re0[1] = (A2p_.Re() - A1_.Re()) / t;
+  re0[2] = A3_.Re();
+  re0[3] = A4_.Re();
+  im0[0] = A1_.Im();
+  im0[1] = (A2p_.Im() - A1_.Im()) / t;
+  im0[2] = A3_.Im();
+  im0[3] = A4_.Im();
+  TMatrixD conv_matrix = ConvMatrix();
 
-  TComplex first = l_rho * gv_rho * par[2] * Drhof;
-  TComplex second = l_omega * gv_omega * par[3] * Domegaf;
+  TVectorD re1 = conv_matrix * re0;
+  TVectorD im1 = conv_matrix * im0;
+  F1_ = GeVmfm_inv * TComplex(re1[0], im1[0]);
+  F2_ = GeVmfm_inv * TComplex(re1[1], im1[1]);
+  F3_ = GeVmfm_inv * TComplex(re1[2], im1[2]);
+  F4_ = GeVmfm_inv * TComplex(re1[3], im1[3]);
+}
 
-  TComplex tmp = Fd(W_) * e / mh * (first + second);
-  return -tmp.Im();
+TComplex Regge::F1(double W, double costh) {
+  set_W(W / 1000.0);
+  set_costh(costh);
+  A2F(t());
+  return F1_;
+}
+
+TComplex Regge::F2(double W, double costh) {
+  set_W(W / 1000.0);
+  set_costh(costh);
+  A2F(t());
+  return F2_;
+}
+
+TComplex Regge::F3(double W, double costh) {
+  set_W(W / 1000.0);
+  set_costh(costh);
+  A2F(t());
+  return F3_;
+}
+
+TComplex Regge::F4(double W, double costh) {
+  set_W(W / 1000.0);
+  set_costh(costh);
+  A2F(t());
+  return F4_;
 }
 
 TComplex Regge::D(double s, double t, double a0, double ap, double S) {
