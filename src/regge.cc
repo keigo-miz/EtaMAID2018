@@ -104,6 +104,7 @@ TComplex Regge::A4(double t) {
 }
 
 void Regge::A2F(double t) {
+  IsProton_ = 1;
   A1(t);
   A2p(t);
   A3(t);
