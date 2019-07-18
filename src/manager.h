@@ -47,6 +47,13 @@ class Manager {
   // in main.cc
   void BornCGLN(int W);
 
+  // Generates a root file containing Regge CGLN amplitudes.
+  //
+  // eg.
+  //   manager.ReggeCGLN(2000);
+  // in main.cc
+  void ReggeCGLN(int W);
+
   // Generates a root file containing Res+Born CGLN amplitudes.
   //
   // eg.
