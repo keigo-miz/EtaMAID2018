@@ -67,7 +67,7 @@ TComplex Regge::A2p(double t) {
   }
   TComplex second = l_rho * gt_rho * ct_pf * Drhof;
 
-  A2p_ =  -Fd(W_) * t * e / 2.0 / mh / mN * (first + second);
+  A2p_ = -Fd(W_) * t * e / 2.0 / mh / mN * (first + second);
   return A2p_;
 }
 
