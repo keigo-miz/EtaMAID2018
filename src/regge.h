@@ -24,12 +24,12 @@ class Regge {
   // electromagnetic couplings (\lambda)
   static const double l_rho = 0.910;
   static const double l_omega = 0.246;
-  static const double l_b1 = 0.1;
+  static const double l_b1 = 1.0;  // By Kashevarov's mail
   // vector couplings to the nucleon (gv)
   static const double gv_rho = 2.71;
   static const double gv_omega = 14.2;
   // tensor couplings to the nucleon (gt)
-  static const double gt_rho = 4.20;
+  static const double gt_rho = 11.4;  // By Kashevarov's mail
   static const double gt_omega = 0.0;
   static const double gt_b1 = -7.0;
   // coefficients for natural parity Regge cuts (c)
