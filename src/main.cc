@@ -15,5 +15,9 @@ int main() {
   manager.ResBornCGLN(2000);
   manager.ResBornCGLN(2500);
   manager.ResBornCGLN(3000);
+  manager.FullCGLN(1500);
+  manager.FullCGLN(2000);
+  manager.FullCGLN(2500);
+  manager.FullCGLN(3000);
   return 0;
 }

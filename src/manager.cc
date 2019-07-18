@@ -16,7 +16,7 @@ TComplex Manager::F1(double W, double costh) {
     sum += resonances_[i].F1(W, costh);
   }
   sum += born_.F1(W, costh);
-  // sum += regge_.F1(W, costh);
+  sum += regge_.F1(W, costh);
   return sum;
 }
 
@@ -26,7 +26,7 @@ TComplex Manager::F2(double W, double costh) {
     sum += resonances_[i].F2(W, costh);
   }
   sum += born_.F2(W, costh);
-  // sum += regge_.F2(W, costh);
+  sum += regge_.F2(W, costh);
   return sum;
 }
 
@@ -36,7 +36,7 @@ TComplex Manager::F3(double W, double costh) {
     sum += resonances_[i].F3(W, costh);
   }
   sum += born_.F3(W, costh);
-  // sum += regge_.F3(W, costh);
+  sum += regge_.F3(W, costh);
   return sum;
 }
 
@@ -46,7 +46,43 @@ TComplex Manager::F4(double W, double costh) {
     sum += resonances_[i].F4(W, costh);
   }
   sum += born_.F4(W, costh);
-  // sum += regge_.F4(W, costh);
+  sum += regge_.F4(W, costh);
+  return sum;
+}
+
+TComplex Manager::F1_res_born(double W, double costh) {
+  TComplex sum(0.0, 0.0);
+  for (int i = 0; i < kNumResonances; i++) {
+    sum += resonances_[i].F1(W, costh);
+  }
+  sum += born_.F1(W, costh);
+  return sum;
+}
+
+TComplex Manager::F2_res_born(double W, double costh) {
+  TComplex sum(0.0, 0.0);
+  for (int i = 0; i < kNumResonances; i++) {
+    sum += resonances_[i].F2(W, costh);
+  }
+  sum += born_.F2(W, costh);
+  return sum;
+}
+
+TComplex Manager::F3_res_born(double W, double costh) {
+  TComplex sum(0.0, 0.0);
+  for (int i = 0; i < kNumResonances; i++) {
+    sum += resonances_[i].F3(W, costh);
+  }
+  sum += born_.F3(W, costh);
+  return sum;
+}
+
+TComplex Manager::F4_res_born(double W, double costh) {
+  TComplex sum(0.0, 0.0);
+  for (int i = 0; i < kNumResonances; i++) {
+    sum += resonances_[i].F4(W, costh);
+  }
+  sum += born_.F4(W, costh);
   return sum;
 }
 
@@ -170,6 +206,45 @@ void Manager::ResBornCGLN(int W) {
   for (int j = 0; j < kNum; j++) {
     x[j] = -1.0 + 0.01 * j;
 
+    tmp = F1_res_born((double)W, x[j]);
+    y[0][0][j] = -tmp.Re();
+    y[0][1][j] = -tmp.Im();
+
+    tmp = F2_res_born((double)W, x[j]);
+    y[1][0][j] = -tmp.Re();
+    y[1][1][j] = -tmp.Im();
+
+    tmp = F3_res_born((double)W, x[j]);
+    y[2][0][j] = -tmp.Re();
+    y[2][1][j] = -tmp.Im();
+
+    tmp = F4_res_born((double)W, x[j]);
+    y[3][0][j] = -tmp.Re();
+    y[3][1][j] = -tmp.Im();
+  }
+  TGraph *tg[4][2];
+  for (int i = 0; i < 4; i++) {
+    for (int j = 0; j < 2; j++) {
+      tg[i][j] = new TGraph(kNum, x, y[i][j]);
+      tg[i][j]->SetName(Form("tg%d_%d", i, j));
+      tg[i][j]->SetLineColor(kRed);
+    }
+  }
+
+  TFile *file0 = new TFile(Form("rt/res_born_cgln%04d.root", W), "recreate");
+  for (int i = 0; i < 4; i++) {
+    for (int j = 0; j < 2; j++) tg[i][j]->Write();
+  }
+  file0->Close();
+}
+
+void Manager::FullCGLN(int W) {
+  const int kNum = 200;
+  double x[kNum], y[4][2][kNum];
+  TComplex tmp;
+  for (int j = 0; j < kNum; j++) {
+    x[j] = -1.0 + 0.01 * j;
+
     tmp = F1((double)W, x[j]);
     y[0][0][j] = -tmp.Re();
     y[0][1][j] = -tmp.Im();
@@ -195,7 +270,7 @@ void Manager::ResBornCGLN(int W) {
     }
   }
 
-  TFile *file0 = new TFile(Form("rt/res_born_cgln%04d.root", W), "recreate");
+  TFile *file0 = new TFile(Form("rt/full_cgln%04d.root", W), "recreate");
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 2; j++) tg[i][j]->Write();
   }

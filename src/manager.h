@@ -16,6 +16,11 @@ class Manager {
   TComplex F2(double W, double costh);
   TComplex F3(double W, double costh);
   TComplex F4(double W, double costh);
+  // temporarily ..
+  TComplex F1_res_born(double W, double costh);
+  TComplex F2_res_born(double W, double costh);
+  TComplex F3_res_born(double W, double costh);
+  TComplex F4_res_born(double W, double costh);
 
   Resonance resonance(int i) const { return resonances_[i]; }
 
@@ -48,6 +53,13 @@ class Manager {
   //   manager.ResBornCGLN(2000);
   // in main.cc
   void ResBornCGLN(int W);
+
+  // Generates a root file containing Res+Born+Regge CGLN amplitudes.
+  //
+  // eg.
+  //   manager.FullCGLN(2000);
+  // in main.cc
+  void FullCGLN(int W);
 
   static const int kNumResonances = 21;
 
