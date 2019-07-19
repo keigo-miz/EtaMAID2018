@@ -17,6 +17,9 @@ class Manager {
   TComplex F3(double W, double costh);
   TComplex F4(double W, double costh);
 
+  // Differential cross section d\sigma/d\Omega.
+  double sigma0(double W, double costh);
+
   Resonance resonance(int i) const { return resonances_[i]; }
 
   // Following methods are for debugging.
@@ -56,7 +59,12 @@ class Manager {
   // in main.cc
   void FullCGLN(int W);
 
+  double PDK(double W, double m1, double m2);
+
   static const int kNumResonances = 21;
+
+  static const double mh = 547.862;
+  static const double mN = 938.272081;
 
  private:
   int ids_[kNumResonances];

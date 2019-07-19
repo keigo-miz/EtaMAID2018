@@ -50,6 +50,22 @@ TComplex Manager::F4(double W, double costh) {
   return sum;
 }
 
+double Manager::sigma0(double W, double costh) {
+  TComplex f1 = F1(W, costh);
+  TComplex f2 = F2(W, costh);
+  TComplex f3 = F3(W, costh);
+  TComplex f4 = F4(W, costh);
+
+  TComplex tmp = f3.Rho2() / 2.0 + f4.Rho2() / 2.0 +
+                 TComplex::Conjugate(f2) * f3 + TComplex::Conjugate(f1) * f4 +
+                 costh * TComplex::Conjugate(f3) * f4;
+  tmp = f1.Rho2() + f2.Rho2() + (1.0 - costh * costh) * tmp -
+        2 * costh * TComplex::Conjugate(f1) * f2;
+
+  double dsigma_dOmega = tmp.Re() * PDK(W, mh, mN) / PDK(W, 0.0, mN);
+  return (dsigma_dOmega * 1.0e-2);  // 1.0e-2 for [mfm^2/str] --> [ubarn/str]
+}
+
 // for debug
 void Manager::ResonanceMultipole() {
   const int kNumPts = 10000;
@@ -239,4 +255,11 @@ void Manager::FullCGLN(int W) {
     for (int j = 0; j < 2; j++) tg[i][j]->Write();
   }
   file0->Close();
+}
+
+// PDK function to calculate k, q
+double Manager::PDK(double W, double m1, double m2) {
+  return (TMath::Sqrt((W * W - (m1 + m2) * (m1 + m2)) *
+                      (W * W - (m1 - m2) * (m1 - m2))) /
+          2.0 / W);
 }
