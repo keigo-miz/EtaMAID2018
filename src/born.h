@@ -11,15 +11,15 @@ class Born {
   void set_W(double W) { W_ = W; }
   void set_costh(double costh) { costh_ = costh; }
 
-  static const double mh = 547.862;
-  static const double mN = 938.272081;
-  static const double Wthr = 547.862 + 938.272081;
-  static const double MeVfm_inv = 197.3269788;
-  static const double e = 0.30282211986;  // sqrt(4 * pi / 137.036)
-  static const double kappa_p = 1.79;
-  static const double kappa_n = -1.91;
-  static const int e_p = 1;
-  static const int e_n = 0;
+  constexpr static double mh = 547.862;
+  constexpr static double mN = 938.272081;
+  constexpr static double Wthr = 547.862 + 938.272081;
+  constexpr static double MeVfm_inv = 197.3269788;
+  constexpr static double e = 0.30282211986;  // sqrt(4 * pi / 137.036)
+  constexpr static double kappa_p = 1.79;
+  constexpr static double kappa_n = -1.91;
+  constexpr static int e_p = 1;
+  constexpr static int e_n = 0;
 
   double F1(double W, double costh);  // [mfm]
   double F2(double W, double costh);  // [mfm]

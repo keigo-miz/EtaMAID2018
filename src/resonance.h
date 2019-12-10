@@ -49,15 +49,15 @@ class Resonance {
   double dP(unsigned int l, double x) const;   // P'_{l}(x)
   double ddP(unsigned int l, double x) const;  // P''_{l}(x)
 
-  static const double mpi = 139.57061;  // charged
-  static const double mK = 493.677;
-  static const double mh = 547.862;
-  static const double mw = 782.65;
-  static const double mhp = 958.78;
-  static const double mN = 938.272081;
-  static const double mL = 1115.683;
-  static const double mS = 1192.642;
-  static const double MeVfm_inv = 197.3269788;
+  constexpr static double mpi = 139.57061;  // charged
+  constexpr static double mK = 493.677;
+  constexpr static double mh = 547.862;
+  constexpr static double mw = 782.65;
+  constexpr static double mhp = 958.78;
+  constexpr static double mN = 938.272081;
+  constexpr static double mL = 1115.683;
+  constexpr static double mS = 1192.642;
+  constexpr static double MeVfm_inv = 197.3269788;
 
  private:
   double W_;

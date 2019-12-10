@@ -61,10 +61,10 @@ class Manager {
 
   double PDK(double W, double m1, double m2);
 
-  static const int kNumResonances = 21;
+  constexpr static int kNumResonances = 21;
 
-  static const double mh = 547.862;
-  static const double mN = 938.272081;
+  constexpr static double mh = 547.862;
+  constexpr static double mN = 938.272081;
 
  private:
   int ids_[kNumResonances];
